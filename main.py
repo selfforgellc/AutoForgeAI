@@ -22,7 +22,7 @@ app.add_middleware(
         "https://auto-forge-frontend-fixed.vercel.app",
 
         # 🔹 Future / preferred
-        "https://autoforge.vercel.app",
+        "https://autoforgeai.vercel.app",
         "https://app.autoforgeai.com",
         "https://autoforgeai.com",
         "https://selfforgellc.com",
