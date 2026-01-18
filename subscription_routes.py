@@ -6,7 +6,8 @@ try:
 except Exception:
     from routes.auth_routes import current_user, AUTH_ROUTES_VERSION  # type: ignore
 
-router = APIRouter(prefix="/api/subscription", tags=["subscription"])
+# ✅ IMPORTANT: no prefix here. Prefix is applied in main.py via include_router(..., prefix="/api/subscription")
+router = APIRouter()
 
 SUBSCRIPTION_ROUTES_VERSION = "SUBSCRIPTION_STATUS_V2_2026_01_10"
 

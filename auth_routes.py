@@ -20,7 +20,8 @@ from auth_utils import (
     get_user_id_from_token,
 )
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+# ✅ IMPORTANT: no prefix here. Prefix is applied in main.py via include_router(..., prefix="/api/auth")
+router = APIRouter()
 
 AUTH_ROUTES_VERSION = "AUTH_DIRECT_BCRYPT_SHA256_V6_2026_01_10"
 
@@ -145,7 +146,6 @@ async def register(request: Request):
                 return JSONResponse({"error": f"[{AUTH_ROUTES_VERSION}] Email already in use"}, status_code=409)
 
             is_admin = (email == ADMIN_EMAIL)
-
             password_hash = _hash_password(password)
 
             user = User(

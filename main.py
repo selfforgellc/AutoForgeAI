@@ -7,7 +7,7 @@ from subscription_routes import router as subscription_router
 from status_api import router as status_router
 from db import init_db
 
-app = FastAPI(title="AutoForgeAI", version="20.0.0")
+app = FastAPI(title="AutoForgeAI", version="20.0.1")
 
 # CORS
 app.add_middleware(
@@ -25,15 +25,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔑 API ROUTES (single, consistent prefix)
+# ✅ API ROUTES (single prefix happens HERE only)
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
-app.include_router(subscription_router, prefix="/api/subscriptions", tags=["subscriptions"])
+app.include_router(subscription_router, prefix="/api/subscription", tags=["subscription"])
 app.include_router(status_router, prefix="/api/status", tags=["status"])
+
 
 @app.on_event("startup")
 def on_startup():
     init_db()
     print("[AutoForgeAI] backend initialized")
+
 
 @app.get("/")
 def root():
