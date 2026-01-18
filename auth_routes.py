@@ -13,18 +13,15 @@ from passlib.context import CryptContext
 from db import get_session
 from models_user import User
 from auth_utils import (
-    COOKIE_NAME,
-    COOKIE_SAMESITE,
-    create_session_token,
-    get_user_id_from_token,
+    create_access_token,
+    get_bearer_token_from_headers,
+    get_user_id_from_access_token,
 )
 
-# ✅ IMPORTANT: no prefix here. Prefix is applied in main.py via include_router(..., prefix="/api/auth")
 router = APIRouter()
 
-AUTH_ROUTES_VERSION = "AUTH_DIRECT_BCRYPT_SHA256_V7_COOKIE_SAMESITE_NONE_SECURE_2026_01_18"
+AUTH_ROUTES_VERSION = "AUTH_BEARER_HMAC_SHA256_V1_2026_01_18"
 
-# Legacy verifier only (for old accounts that were hashed with passlib/bcrypt directly)
 LEGACY_CONTEXT = CryptContext(schemes=["bcrypt_sha256", "bcrypt"], deprecated="auto")
 
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "akjohnson1027@gmail.com").strip().lower()
@@ -32,7 +29,6 @@ MAX_PASSWORD_BYTES = int(os.getenv("MAX_PASSWORD_BYTES", "4096"))
 
 
 def _pw_digest(password: str) -> bytes:
-    # Always 32 bytes -> always <= 72 bytes for bcrypt
     return hashlib.sha256(password.encode("utf-8")).digest()
 
 
@@ -57,84 +53,26 @@ def _verify_password(password: str, password_hash: str) -> bool:
         return False
 
 
-def _is_https_request(request: Request) -> bool:
-    # Render / proxies generally set x-forwarded-proto
-    xf_proto = (request.headers.get("x-forwarded-proto") or "").lower().strip()
-    if xf_proto:
-        return xf_proto == "https"
-    return request.url.scheme == "https"
-
-
-def _cookie_policy_for_request(request: Request) -> tuple[bool, str]:
-    """
-    Cross-site cookie rules:
-    - To send cookies from Vercel -> Render (different site), browser requires:
-      Secure=True AND SameSite=None
-    - For local http dev, SameSite=None would be rejected, so use Lax + Secure=False.
-    """
-    https = _is_https_request(request)
-
-    if https:
-        # ✅ Production / HTTPS: must be Secure + SameSite=None for cross-site cookie auth
-        return True, "none"
-
-    # ✅ Local HTTP dev
-    # (Browsers reject SameSite=None without Secure)
-    return False, "lax"
-
-
-def _set_cookie(resp: JSONResponse, request: Request, token: str) -> None:
-    secure, samesite = _cookie_policy_for_request(request)
-
-    # Allow override of samesite via env if provided, but NEVER break HTTPS cross-site auth.
-    # If someone sets COOKIE_SAMESITE to "lax" in production, auth will appear to "refresh".
-    if _is_https_request(request):
-        samesite = "none"
-
-    resp.set_cookie(
-        key=COOKIE_NAME,
-        value=token,
-        httponly=True,
-        secure=secure,
-        samesite=samesite,
-        max_age=60 * 60 * 24 * 30,
-        path="/",
-    )
-
-
-def _clear_cookie(resp: JSONResponse, request: Request) -> None:
-    secure, samesite = _cookie_policy_for_request(request)
-
-    # Match the cookie settings used when it was set, otherwise some browsers won't delete.
-    resp.delete_cookie(
-        key=COOKIE_NAME,
-        path="/",
-        secure=secure,
-        samesite=samesite,
-    )
-
-
-def current_user(request: Request) -> Optional[User]:
-    token = request.cookies.get(COOKIE_NAME)
-    if not token:
-        return None
-
-    user_id = get_user_id_from_token(token)
-    if not user_id:
-        return None
-
-    with get_session() as s:
-        return s.get(User, user_id)
-
-
 def _normalize_phone(phone: str) -> str:
     digits = re.sub(r"\D+", "", (phone or "").strip())
-    # US: allow 10 digits or 11 digits starting with 1
     if len(digits) == 11 and digits.startswith("1"):
         digits = digits[1:]
     if len(digits) != 10:
         raise ValueError("Invalid phone number")
     return digits
+
+
+def current_user(request: Request) -> Optional[User]:
+    bearer = get_bearer_token_from_headers(request.headers.get("authorization"))
+    if not bearer:
+        return None
+
+    user_id = get_user_id_from_access_token(bearer)
+    if not user_id:
+        return None
+
+    with get_session() as s:
+        return s.get(User, user_id)
 
 
 @router.get("/ping")
@@ -156,7 +94,6 @@ async def register(request: Request):
         return JSONResponse({"error": f"[{AUTH_ROUTES_VERSION}] Email and password required"}, status_code=400)
 
     pw_bytes = password.encode("utf-8")
-
     if len(pw_bytes) < 8:
         return JSONResponse({"error": f"[{AUTH_ROUTES_VERSION}] Password must be at least 8 characters"}, status_code=400)
 
@@ -186,21 +123,16 @@ async def register(request: Request):
             s.commit()
             s.refresh(user)
 
-        token = create_session_token(user.id)
-        resp = JSONResponse(
+        access_token = create_access_token(user.id)
+
+        return JSONResponse(
             {
                 "ok": True,
-                "user": {
-                    "id": user.id,
-                    "email": user.email,
-                    "tier": user.tier,
-                    "phone": user.phone,
-                },
+                "access_token": access_token,
+                "user": {"id": user.id, "email": user.email, "tier": user.tier, "phone": user.phone},
                 "version": AUTH_ROUTES_VERSION,
             }
         )
-        _set_cookie(resp, request, token)
-        return resp
 
     except Exception as e:
         return JSONResponse(
@@ -235,16 +167,16 @@ async def login(request: Request):
             if not _verify_password(password, user.password_hash):
                 return JSONResponse({"error": f"[{AUTH_ROUTES_VERSION}] Invalid credentials"}, status_code=401)
 
-        token = create_session_token(user.id)
-        resp = JSONResponse(
+        access_token = create_access_token(user.id)
+
+        return JSONResponse(
             {
                 "ok": True,
+                "access_token": access_token,
                 "user": {"id": user.id, "email": user.email, "tier": user.tier, "phone": user.phone},
                 "version": AUTH_ROUTES_VERSION,
             }
         )
-        _set_cookie(resp, request, token)
-        return resp
 
     except Exception as e:
         return JSONResponse(
@@ -254,10 +186,9 @@ async def login(request: Request):
 
 
 @router.post("/logout")
-async def logout(request: Request):
-    resp = JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
-    _clear_cookie(resp, request)
-    return resp
+async def logout():
+    # Stateless tokens: client just deletes token.
+    return JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
 
 
 @router.get("/me")
@@ -331,9 +262,7 @@ async def delete_account(request: Request):
                 s.delete(db_user)
                 s.commit()
 
-        resp = JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
-        _clear_cookie(resp, request)
-        return resp
+        return JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
 
     except Exception as e:
         return JSONResponse(
