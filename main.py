@@ -1,3 +1,4 @@
+# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -24,12 +25,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers
-app.include_router(auth_router, prefix="/auth", tags=["auth"])
-app.include_router(subscription_router, prefix="/subscriptions", tags=["subscriptions"])
-app.include_router(status_router, prefix="/status", tags=["status"])
+# 🔑 API ROUTES (single, consistent prefix)
+app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
+app.include_router(subscription_router, prefix="/api/subscriptions", tags=["subscriptions"])
+app.include_router(status_router, prefix="/api/status", tags=["status"])
 
 @app.on_event("startup")
 def on_startup():
     init_db()
     print("[AutoForgeAI] backend initialized")
+
+@app.get("/")
+def root():
+    return {"ok": True, "service": "AutoForgeAI"}
