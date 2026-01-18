@@ -14,7 +14,6 @@ from db import get_session
 from models_user import User
 from auth_utils import (
     COOKIE_NAME,
-    COOKIE_SECURE,
     COOKIE_SAMESITE,
     create_session_token,
     get_user_id_from_token,
@@ -23,7 +22,7 @@ from auth_utils import (
 # ✅ IMPORTANT: no prefix here. Prefix is applied in main.py via include_router(..., prefix="/api/auth")
 router = APIRouter()
 
-AUTH_ROUTES_VERSION = "AUTH_DIRECT_BCRYPT_SHA256_V6_2026_01_10"
+AUTH_ROUTES_VERSION = "AUTH_DIRECT_BCRYPT_SHA256_V7_COOKIE_SAMESITE_NONE_SECURE_2026_01_18"
 
 # Legacy verifier only (for old accounts that were hashed with passlib/bcrypt directly)
 LEGACY_CONTEXT = CryptContext(schemes=["bcrypt_sha256", "bcrypt"], deprecated="auto")
@@ -59,21 +58,38 @@ def _verify_password(password: str, password_hash: str) -> bool:
 
 
 def _is_https_request(request: Request) -> bool:
+    # Render / proxies generally set x-forwarded-proto
     xf_proto = (request.headers.get("x-forwarded-proto") or "").lower().strip()
     if xf_proto:
         return xf_proto == "https"
     return request.url.scheme == "https"
 
 
-def _set_cookie(resp: JSONResponse, request: Request, token: str) -> None:
+def _cookie_policy_for_request(request: Request) -> tuple[bool, str]:
+    """
+    Cross-site cookie rules:
+    - To send cookies from Vercel -> Render (different site), browser requires:
+      Secure=True AND SameSite=None
+    - For local http dev, SameSite=None would be rejected, so use Lax + Secure=False.
+    """
     https = _is_https_request(request)
 
-    secure = bool(COOKIE_SECURE) and https
-    samesite = COOKIE_SAMESITE
+    if https:
+        # ✅ Production / HTTPS: must be Secure + SameSite=None for cross-site cookie auth
+        return True, "none"
 
-    # If not secure (http), SameSite=None will be rejected by browsers
-    if not secure:
-        samesite = "lax"
+    # ✅ Local HTTP dev
+    # (Browsers reject SameSite=None without Secure)
+    return False, "lax"
+
+
+def _set_cookie(resp: JSONResponse, request: Request, token: str) -> None:
+    secure, samesite = _cookie_policy_for_request(request)
+
+    # Allow override of samesite via env if provided, but NEVER break HTTPS cross-site auth.
+    # If someone sets COOKIE_SAMESITE to "lax" in production, auth will appear to "refresh".
+    if _is_https_request(request):
+        samesite = "none"
 
     resp.set_cookie(
         key=COOKIE_NAME,
@@ -86,8 +102,16 @@ def _set_cookie(resp: JSONResponse, request: Request, token: str) -> None:
     )
 
 
-def _clear_cookie(resp: JSONResponse) -> None:
-    resp.delete_cookie(key=COOKIE_NAME, path="/")
+def _clear_cookie(resp: JSONResponse, request: Request) -> None:
+    secure, samesite = _cookie_policy_for_request(request)
+
+    # Match the cookie settings used when it was set, otherwise some browsers won't delete.
+    resp.delete_cookie(
+        key=COOKIE_NAME,
+        path="/",
+        secure=secure,
+        samesite=samesite,
+    )
 
 
 def current_user(request: Request) -> Optional[User]:
@@ -230,9 +254,9 @@ async def login(request: Request):
 
 
 @router.post("/logout")
-async def logout():
+async def logout(request: Request):
     resp = JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
-    _clear_cookie(resp)
+    _clear_cookie(resp, request)
     return resp
 
 
@@ -308,7 +332,7 @@ async def delete_account(request: Request):
                 s.commit()
 
         resp = JSONResponse({"ok": True, "version": AUTH_ROUTES_VERSION})
-        _clear_cookie(resp)
+        _clear_cookie(resp, request)
         return resp
 
     except Exception as e:
