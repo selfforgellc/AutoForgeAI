@@ -16,17 +16,13 @@ numpy==1.26.4
 # Database / ORM
 sqlmodel==0.0.22
 
-# Auth / hashing
+# Auth / security
 bcrypt==4.2.0
 passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
 
 # Payments
 stripe==8.9.0
 
 # OpenAI
 openai==1.40.0
-
-# NOTE:
-# Removed for Render compatibility:
-# - sentence-transformers
-# - faiss-cpu
