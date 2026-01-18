@@ -1,0 +1,71 @@
+{
+  "engine": [
+    "air_intake",
+    "fuel",
+    "ignition",
+    "exhaust",
+    "emissions",
+    "cooling",
+    "lubrication",
+    "timing"
+  ],
+  "cooling": [
+    "radiator",
+    "thermostat",
+    "water_pump",
+    "fans",
+    "temp_sensors",
+    "hoses"
+  ],
+  "electrical": [
+    "charging",
+    "battery",
+    "starting",
+    "grounds",
+    "alternator"
+  ],
+  "transmission": [
+    "auto",
+    "manual",
+    "clutch",
+    "torque_converter",
+    "valve_body",
+    "solenoids"
+  ],
+  "hvac": [
+    "ac",
+    "heater_core",
+    "blower",
+    "blend_doors",
+    "refrigerant"
+  ],
+  "brakes": [
+    "pads_rotors",
+    "hydraulics",
+    "abs",
+    "master_cylinder",
+    "booster"
+  ],
+  "suspension": [
+    "struts_shocks",
+    "control_arms",
+    "tie_rods",
+    "ball_joints",
+    "bushings",
+    "alignment"
+  ],
+  "driveline": [
+    "axles",
+    "differential",
+    "cv_joints",
+    "u_joints"
+  ],
+  "body_electronics": [
+    "windows",
+    "locks",
+    "lighting",
+    "sensors",
+    "modules",
+    "can_bus"
+  ]
+}

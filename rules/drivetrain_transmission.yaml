@@ -1,0 +1,33 @@
+version: "1.0"
+domain: "drivetrain_transmission"
+rules:
+  - id: "trans.slip_or_flare"
+    priority: 120
+    triggers:
+      keywords: ["slip", "slipping", "flare", "won't shift", "hard shift", "delay engagement"]
+      regex: []
+    lock:
+      system: "drivetrain_transmission"
+      component_hints:
+        - "low fluid"
+        - "solenoid/valve body"
+        - "clutch pack wear"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["do_not_tow_heavy"]
+      message: "Transmission issues can worsen quickly; avoid heavy load/towing until checked."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Any codes? Any limp mode?"
+        - "Fluid level/condition? Burnt smell?"
+    next_actions:
+      micro_steps:
+        - "Check fluid level/condition (if applicable) and scan for TCM/PCM codes."
+        - "Note when it happens: cold vs hot, specific gears, throttle position."
+      what_it_means: "Hot-only slip can be pressure loss/viscosity issues; harsh shifts can be solenoid/line pressure control."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.80

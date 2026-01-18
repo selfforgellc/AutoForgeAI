@@ -1,0 +1,168 @@
+[
+  {
+    "id": "cooling.overheat.general",
+    "title": "Overheating",
+    "systems": [
+      "cooling",
+      "radiator",
+      "thermostat",
+      "fans",
+      "water_pump"
+    ],
+    "patterns": {
+      "include": [
+        "overheat",
+        "overheats",
+        "running hot",
+        "temp gauge max"
+      ],
+      "exclude": [
+        "rough idle",
+        "no start"
+      ]
+    },
+    "dtc_bonus": [
+      "P0128",
+      "P0117",
+      "P0480"
+    ],
+    "causes": [
+      {
+        "name": "Low coolant",
+        "description": "Leaks or improper fill",
+        "likelihood": "common"
+      },
+      {
+        "name": "Thermostat stuck closed",
+        "description": "Prevents coolant flow to radiator",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Radiator fan inoperative",
+        "description": "Relay/motor failure or wiring",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Clogged radiator",
+        "description": "Internal restriction or external debris",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Water pump fault",
+        "description": "Damaged impeller or slipping drive",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "Overheating is usually poor coolant circulation or inadequate airflow.",
+    "steps": [
+      {
+        "step": "Verify coolant level & bleed air",
+        "details": "Top up; purge air with bleed procedure",
+        "tools": "Coolant funnel",
+        "expected": "Stable level"
+      },
+      {
+        "step": "Check thermostat operation",
+        "details": "Hose warmth and IR temp near opening spec",
+        "tools": "IR thermometer",
+        "expected": "Opens near spec"
+      },
+      {
+        "step": "Command fans ON",
+        "details": "Use scan tool or jumper to verify operation",
+        "tools": "Scan tool/jumper",
+        "expected": "Fans run when hot"
+      },
+      {
+        "step": "Flow test radiator",
+        "details": "Feel for cold spots; flush or replace if restricted",
+        "tools": "IR thermometer",
+        "expected": "Even heat pattern"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  },
+  {
+    "id": "cooling.no_heat.heater_core",
+    "title": "No cabin heat",
+    "systems": [
+      "cooling",
+      "heater_core",
+      "blend_doors"
+    ],
+    "patterns": {
+      "include": [
+        "no heat",
+        "heater blows cold",
+        "heat not working"
+      ],
+      "exclude": [
+        "ac",
+        "air conditioning"
+      ]
+    },
+    "dtc_bonus": [
+      "P0128",
+      "P0117"
+    ],
+    "causes": [
+      {
+        "name": "Low coolant or air pocket",
+        "description": "Insufficient hot coolant at core",
+        "likelihood": "common"
+      },
+      {
+        "name": "Blend door issue",
+        "description": "HVAC door stuck or actuator failed",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Clogged heater core",
+        "description": "Restricted flow through core",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "No heat stems from coolant level/flow or HVAC blend control.",
+    "steps": [
+      {
+        "step": "Check coolant level",
+        "details": "Verify hot coolant present",
+        "tools": "Coolant funnel",
+        "expected": "Full"
+      },
+      {
+        "step": "Check heater hoses",
+        "details": "Both should be hot with flow; if one cold, core clogged",
+        "tools": "IR thermometer",
+        "expected": "Both near engine temp"
+      },
+      {
+        "step": "Command blend door",
+        "details": "Scan/actuate to confirm movement",
+        "tools": "Scan tool",
+        "expected": "Door moves to hot position"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  }
+]

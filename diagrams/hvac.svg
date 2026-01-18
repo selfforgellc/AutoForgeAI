@@ -1,0 +1,20 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#0b0b0d"/>
+  <g font-family="Inter,Arial" font-size="14" fill="#9aa0a6" stroke="#9aa0a6" stroke-linecap="round" stroke-linejoin="round">
+
+  <rect x="60" y="240" width="130" height="60" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="compressor"/>
+  <text x="125" y="230" text-anchor="middle" fill="#ff3b3b">Compressor</text>
+  <line x1="190" y1="270" x2="270" y2="270"/>
+  <rect x="270" y="230" width="130" height="80" rx="8" fill="none" stroke="#ff3b3b" stroke-width="2" id="condenser"/>
+  <text x="335" y="220" text-anchor="middle" fill="#ff3b3b">Condenser</text>
+  <line x1="400" y1="270" x2="460" y2="270"/>
+  <rect x="460" y="255" width="80" height="30" rx="6" fill="none" stroke="#ff3b3b" stroke-width="2" id="txv"/>
+  <text x="500" y="250" text-anchor="middle" fill="#ff3b3b">TXV/Orifice</text>
+  <line x1="540" y1="270" x2="640" y2="270"/>
+  <rect x="640" y="230" width="150" height="80" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="evaporator"/>
+  <text x="715" y="220" text-anchor="middle" fill="#ff3b3b">Evaporator</text>
+  <rect x="810" y="230" width="70" height="80" rx="8" fill="none" stroke="#ff3b3b" stroke-width="2" id="blower"/>
+  <text x="845" y="220" text-anchor="middle" fill="#ff3b3b">Blower</text>
+
+  </g>
+</svg>

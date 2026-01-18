@@ -1,0 +1,43 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#0b0b0d"/>
+  <g font-family="Inter,Arial" font-size="14" fill="#9aa0a6" stroke="#9aa0a6" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- Battery -->
+  <rect x="40" y="220" width="110" height="70" rx="8" fill="none" stroke="#9aa0a6" id="battery"/>
+  <text x="95" y="215" text-anchor="middle" fill="#9aa0a6">Battery</text>
+  <line x1="150" y1="255" x2="190" y2="255" />
+  <!-- Fuse block -->
+  <rect x="190" y="235" width="70" height="40" rx="6" fill="none" stroke="#9aa0a6" id="fuse"/>
+  <text x="225" y="230" text-anchor="middle" fill="#9aa0a6">Fuse</text>
+  <line x1="260" y1="255" x2="320" y2="255" />
+  <!-- Ignition coil icon (core + winding) -->
+  <rect x="320" y="210" width="110" height="90" rx="10" fill="none" stroke="#9aa0a6" id="coil"/>
+  <rect x="335" y="230" width="80" height="50" rx="6" fill="none" stroke="#ff3b3b" stroke-width="2"/>
+  <path d="M350 240 h50 m-50 10 h50 m-50 10 h50" stroke="#ff3b3b" stroke-width="2"/>
+  <text x="375" y="205" text-anchor="middle" fill="#ff3b3b">Ignition Coil</text>
+  <line x1="430" y1="255" x2="500" y2="255" />
+  <!-- Distributor / control -->
+  <circle cx="500" cy="255" r="28" fill="none" stroke="#9aa0a6" id="distributor"/>
+  <path d="M500 227 v56" stroke="#9aa0a6"/><path d="M472 255 h56" stroke="#9aa0a6"/>
+  <text x="500" y="225" text-anchor="middle" fill="#9aa0a6">Distributor / Control</text>
+  <line x1="528" y1="255" x2="580" y2="255" />
+  <!-- Spark plug (symbol) -->
+  <g id="plug" stroke="#ff3b3b" stroke-width="2">
+    <rect x="580" y="245" width="20" height="20" rx="3" fill="none"/>
+    <path d="M600 255 h30" />
+    <path d="M630 255 l10 -6 v12 z" />
+  </g>
+  <text x="600" y="240" text-anchor="middle" fill="#ff3b3b">Spark Plug</text>
+  <line x1="610" y1="285" x2="610" y2="320" />
+  <path d="M590 320 h40" />
+  <text x="610" y="340" text-anchor="middle" fill="#9aa0a6">Ground</text>
+  <!-- ECM -->
+  <rect x="700" y="180" width="200" height="150" rx="12" fill="none" stroke="#9aa0a6" id="ecm"/>
+  <text x="800" y="170" text-anchor="middle" fill="#ff3b3b">ECM</text>
+  <path d="M700 210 h-70" />
+  <path d="M700 300 h-70" />
+  <text x="665" y="205" text-anchor="end" fill="#9aa0a6">Control</text>
+  <text x="665" y="295" text-anchor="end" fill="#9aa0a6">Feedback</text>
+
+  </g>
+</svg>

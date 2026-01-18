@@ -1,0 +1,74 @@
+[
+  {
+    "id": "hvac.ac_not_cold",
+    "title": "A/C not cold",
+    "systems": [
+      "hvac",
+      "ac",
+      "refrigerant",
+      "compressor",
+      "condenser",
+      "fans"
+    ],
+    "patterns": {
+      "include": [
+        "ac not cold",
+        "a/c warm",
+        "air not cold"
+      ],
+      "exclude": [
+        "no heat"
+      ]
+    },
+    "dtc_bonus": [],
+    "causes": [
+      {
+        "name": "Low refrigerant",
+        "description": "Leak reduces cooling capacity",
+        "likelihood": "common"
+      },
+      {
+        "name": "Condenser airflow issue",
+        "description": "Fan not running or fins clogged",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Compressor control issue",
+        "description": "Clutch/valve not engaging",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "Most A/C issues trace to refrigerant charge or airflow across condenser.",
+    "steps": [
+      {
+        "step": "Check compressor engagement",
+        "details": "Does clutch engage? Check power/ground",
+        "tools": "Meter",
+        "expected": "Clutch ON with A/C"
+      },
+      {
+        "step": "Measure vent temps & pressures",
+        "details": "Compare to ambient; manifold gauges if available",
+        "tools": "Thermometer/gauges",
+        "expected": "Spec pressures & ~40\u00b0F drop"
+      },
+      {
+        "step": "Inspect for leaks",
+        "details": "UV dye/sniffer on joints & condenser",
+        "tools": "UV light",
+        "expected": "No leaks found"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 6
+      },
+      "elite": {
+        "max_steps": 8
+      }
+    }
+  }
+]

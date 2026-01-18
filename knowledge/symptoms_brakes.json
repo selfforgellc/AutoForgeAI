@@ -1,0 +1,73 @@
+[
+  {
+    "id": "brakes.soft_pedal",
+    "title": "Soft/low brake pedal",
+    "systems": [
+      "brakes",
+      "hydraulics",
+      "master_cylinder",
+      "booster",
+      "abs"
+    ],
+    "patterns": {
+      "include": [
+        "soft brake pedal",
+        "pedal goes to floor",
+        "spongy brakes"
+      ],
+      "exclude": []
+    },
+    "dtc_bonus": [
+      "Cxxxx"
+    ],
+    "causes": [
+      {
+        "name": "Air in system",
+        "description": "Entrapped air after service/leak",
+        "likelihood": "common"
+      },
+      {
+        "name": "External leak",
+        "description": "Caliper/wheel cylinder/line leak",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Master cylinder internal leak",
+        "description": "Bypass under pressure",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "A soft pedal is most often air or hydraulic leaks.",
+    "steps": [
+      {
+        "step": "Inspect for leaks",
+        "details": "Check all corners, lines, master",
+        "tools": "Flashlight",
+        "expected": "Dry everywhere"
+      },
+      {
+        "step": "Bleed system",
+        "details": "Follow OEM procedure; ABS bleed if needed",
+        "tools": "Bleeder/scan tool",
+        "expected": "Firm pedal"
+      },
+      {
+        "step": "Master cylinder test",
+        "details": "Hold steady pressure; if pedal sinks, replace",
+        "tools": "None",
+        "expected": "Holds pressure"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 6
+      },
+      "elite": {
+        "max_steps": 8
+      }
+    }
+  }
+]

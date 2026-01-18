@@ -1,0 +1,109 @@
+{
+  "ignition": [
+    "battery",
+    "fuse",
+    "coil",
+    "distributor",
+    "plug",
+    "ecm"
+  ],
+  "fuel": [
+    "tank",
+    "pump",
+    "filter",
+    "injector",
+    "rail",
+    "ecm"
+  ],
+  "cooling": [
+    "radiator",
+    "thermostat",
+    "pump",
+    "engine"
+  ],
+  "charging": [
+    "battery",
+    "alternator",
+    "regulator",
+    "ecm"
+  ],
+  "starter": [
+    "battery",
+    "ignition_switch",
+    "solenoid",
+    "starter"
+  ],
+  "lubrication": [
+    "pan",
+    "pump",
+    "filter",
+    "galleries"
+  ],
+  "exhaust": [
+    "manifold",
+    "catalyst",
+    "o2_up",
+    "o2_down",
+    "muffler"
+  ],
+  "intake": [
+    "filter",
+    "maf",
+    "throttle",
+    "intake"
+  ],
+  "turbo-egr": [
+    "turbo",
+    "intercooler",
+    "throttle",
+    "intake",
+    "egr_valve",
+    "egr_cooler"
+  ],
+  "transmission": [
+    "torque_converter",
+    "pump",
+    "valve_body",
+    "clutches"
+  ],
+  "awd": [
+    "transfer",
+    "prop_shaft",
+    "rear_diff",
+    "front_diff"
+  ],
+  "brake-abs": [
+    "master",
+    "abs_mod",
+    "front_left",
+    "front_right",
+    "rear_left",
+    "rear_right"
+  ],
+  "steering": [
+    "pump",
+    "reservoir",
+    "rack"
+  ],
+  "hvac": [
+    "compressor",
+    "condenser",
+    "txv",
+    "evaporator",
+    "blower"
+  ],
+  "lighting": [
+    "battery",
+    "fuse",
+    "relay",
+    "headlamp",
+    "switch"
+  ],
+  "obd": [
+    "dlc",
+    "can",
+    "ecm",
+    "tcm",
+    "abs"
+  ]
+}

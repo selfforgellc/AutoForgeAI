@@ -1,0 +1,94 @@
+{
+  "P0171": {
+    "system": "engine",
+    "desc": "System Too Lean (Bank 1)"
+  },
+  "P0174": {
+    "system": "engine",
+    "desc": "System Too Lean (Bank 2)"
+  },
+  "P0128": {
+    "system": "cooling",
+    "desc": "Coolant Thermostat Below Regulating Temperature"
+  },
+  "P0300": {
+    "system": "engine",
+    "desc": "Random/Multiple Cylinder Misfire Detected"
+  },
+  "P0301": {
+    "system": "engine",
+    "desc": "Cylinder 1 Misfire Detected"
+  },
+  "P0420": {
+    "system": "emissions",
+    "desc": "Catalyst Efficiency Below Threshold (Bank 1)"
+  },
+  "P0117": {
+    "system": "cooling",
+    "desc": "Coolant Temp Circuit Low Input"
+  },
+  "P0480": {
+    "system": "cooling",
+    "desc": "Fan 1 Control Circuit"
+  },
+  "P0442": {
+    "system": "emissions",
+    "desc": "EVAP System Small Leak Detected"
+  },
+  "P0455": {
+    "system": "emissions",
+    "desc": "EVAP System Gross Leak Detected"
+  },
+  "P0101": {
+    "system": "engine",
+    "desc": "MAF Circuit Range/Performance"
+  },
+  "P0137": {
+    "system": "emissions",
+    "desc": "O2 Sensor Circuit Low Voltage (B1S2)"
+  },
+  "P0141": {
+    "system": "emissions",
+    "desc": "O2 Sensor Heater Circuit (B1S2)"
+  },
+  "P0463": {
+    "system": "fuel",
+    "desc": "Fuel Level Sensor Circuit High Input"
+  },
+  "P0556": {
+    "system": "brakes",
+    "desc": "Brake Booster Pressure Sensor Range/Performance"
+  },
+  "P0562": {
+    "system": "electrical",
+    "desc": "System Voltage Low"
+  },
+  "P0628": {
+    "system": "fuel",
+    "desc": "Fuel Pump Control Circuit Low"
+  },
+  "P0715": {
+    "system": "transmission",
+    "desc": "Input/Turbine Speed Sensor Circuit"
+  },
+  "P0730": {
+    "system": "transmission",
+    "desc": "Incorrect Gear Ratio"
+  },
+  "P0741": {
+    "system": "transmission",
+    "desc": "Torque Converter Clutch Performance/Stuck Off"
+  },
+  "P0750": {
+    "system": "transmission",
+    "desc": "Shift Solenoid A Malfunction"
+  },
+  "P0A0F": {
+    "system": "hybrid_ev",
+    "desc": "Engine Failed to Start (Hybrid)"
+  },
+  "U0100": {
+    "system": "can_bus",
+    "desc": "Lost Communication With ECM/PCM 'A'"
+  }
+}

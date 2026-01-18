@@ -1,0 +1,21 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#0b0b0d"/>
+  <g font-family="Inter,Arial" font-size="14" fill="#9aa0a6" stroke="#9aa0a6" stroke-linecap="round" stroke-linejoin="round">
+
+  <rect x="60" y="260" width="140" height="50" rx="8" fill="none" stroke="#ff3b3b" stroke-width="2" id="dlc"/>
+  <text x="130" y="250" text-anchor="middle" fill="#ff3b3b">OBD-II DLC</text>
+  <line x1="200" y1="285" x2="280" y2="285"/>
+  <rect x="280" y="250" width="120" height="70" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="can"/>
+  <text x="340" y="240" text-anchor="middle" fill="#ff3b3b">CAN Bus</text>
+  <line x1="400" y1="285" x2="470" y2="285"/>
+  <rect x="470" y="235" width="100" height="100" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="ecm"/>
+  <text x="520" y="225" text-anchor="middle" fill="#ff3b3b">ECM</text>
+  <line x1="570" y1="285" x2="640" y2="285"/>
+  <rect x="640" y="235" width="100" height="100" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="tcm"/>
+  <text x="690" y="225" text-anchor="middle" fill="#ff3b3b">TCM</text>
+  <line x1="740" y1="285" x2="810" y2="285"/>
+  <rect x="810" y="235" width="100" height="100" rx="10" fill="none" stroke="#ff3b3b" stroke-width="2" id="abs"/>
+  <text x="860" y="225" text-anchor="middle" fill="#ff3b3b">ABS/ESP</text>
+
+  </g>
+</svg>

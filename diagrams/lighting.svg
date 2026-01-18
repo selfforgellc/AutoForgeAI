@@ -1,0 +1,21 @@
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#0b0b0d"/>
+  <g font-family="Inter,Arial" font-size="14" fill="#9aa0a6" stroke="#9aa0a6" stroke-linecap="round" stroke-linejoin="round">
+
+  <rect x="60" y="260" width="110" height="60" rx="8" fill="none" stroke="#9aa0a6" id="battery"/>
+  <text x="115" y="250" text-anchor="middle" fill="#9aa0a6">Battery</text>
+  <line x1="170" y1="290" x2="230" y2="290"/>
+  <rect x="230" y="275" width="70" height="30" rx="6" fill="none" stroke="#ff3b3b" stroke-width="2" id="fuse"/>
+  <text x="265" y="270" text-anchor="middle" fill="#ff3b3b">Fuse</text>
+  <line x1="300" y1="290" x2="360" y2="290"/>
+  <rect x="360" y="275" width="70" height="30" rx="6" fill="none" stroke="#ff3b3b" stroke-width="2" id="relay"/>
+  <text x="395" y="270" text-anchor="middle" fill="#ff3b3b">Relay</text>
+  <line x1="430" y1="290" x2="520" y2="290"/>
+  <rect x="520" y="260" width="120" height="60" rx="8" fill="none" stroke="#ff3b3b" stroke-width="2" id="headlamp"/>
+  <text x="580" y="250" text-anchor="middle" fill="#ff3b3b">Headlamp</text>
+  <line x1="640" y1="290" x2="720" y2="290"/>
+  <rect x="720" y="275" width="90" height="30" rx="6" fill="none" stroke="#ff3b3b" stroke-width="2" id="switch"/>
+  <text x="765" y="270" text-anchor="middle" fill="#ff3b3b">Switch</text>
+
+  </g>
+</svg>
