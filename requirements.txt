@@ -1,18 +1,31 @@
+# ============================================================
+# AutoForge Backend Requirements (Render + OpenAI)
+# ============================================================
+
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
 python-dotenv==1.0.1
 pydantic==2.9.2
 aiofiles==23.2.1
 jinja2==3.1.4
-stripe==8.9.0
 pyyaml>=6.0.1
+httpx==0.27.0
+orjson==3.10.7
+numpy==1.26.4
+
+# Database / ORM
 sqlmodel==0.0.22
-sqlalchemy==2.0.36
+
+# Auth / hashing
+bcrypt==4.2.0
+
+# Payments
+stripe==8.9.0
 
 # OpenAI
 openai==1.40.0
 
-# Core utilities
-numpy==1.26.4
-orjson==3.10.7
-httpx==0.27.0
+# NOTE:
+# Removed for Render compatibility:
+# - sentence-transformers
+# - faiss-cpu
