@@ -1,12 +1,14 @@
+# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from auth_routes import router as auth_router
 from subscription_routes import router as subscription_router
 from status_api import router as status_router
+from chat_routes import router as chat_router  # ✅ NEW
 from db import init_db
 
-app = FastAPI(title="AutoForgeAI", version="20.0.2")
+app = FastAPI(title="AutoForgeAI", version="20.0.3")
 
 # ✅ CORS — FRONTEND ORIGINS ONLY
 app.add_middleware(
@@ -21,7 +23,7 @@ app.add_middleware(
         # 🔹 Vercel (current)
         "https://auto-forge-frontend-fixed.vercel.app",
 
-        # 🔹 Future / preferred
+        # 🔹 Preferred / production
         "https://autoforgeai.vercel.app",
         "https://app.autoforgeai.com",
         "https://autoforgeai.com",
@@ -36,6 +38,15 @@ app.add_middleware(
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
 app.include_router(subscription_router, prefix="/api/subscription", tags=["subscription"])
 app.include_router(status_router, prefix="/api/status", tags=["status"])
+
+# ✅ CHAT ROUTES
+# Your frontend has historically called BOTH styles; we support both to avoid breaking anything.
+# - POST /chat         (some clients)
+# - POST /api/chat     (other clients)
+# - POST /session/reset
+# - POST /api/session/reset
+app.include_router(chat_router, tags=["chat"])          # root routes
+app.include_router(chat_router, prefix="/api", tags=["chat"])  # /api/* aliases
 
 
 @app.on_event("startup")
