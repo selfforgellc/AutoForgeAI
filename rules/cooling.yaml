@@ -1,0 +1,33 @@
+version: "1.0"
+domain: "cooling"
+rules:
+  - id: "coolant.sweet_smell_or_steam"
+    priority: 160
+    triggers:
+      keywords: ["sweet smell", "coolant smell", "steam", "fog", "white steam", "antifreeze"]
+      regex: []
+    lock:
+      system: "cooling"
+      component_hints:
+        - "heater core leak"
+        - "coolant leak on exhaust"
+        - "radiator/hoses"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["visibility_risk"]
+      message: "Steam/fog from vents can reduce visibility and may indicate a coolant leak; avoid long drives until confirmed."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Is the windshield film/greasy or fogging up fast?"
+        - "Any damp carpet/passenger footwell moisture?"
+    next_actions:
+      micro_steps:
+        - "Check coolant level (cold). If low and you have cabin fog/sweet smell, suspect heater core."
+        - "Look for dampness under dash/passenger carpet and a sweet odor near vents."
+      what_it_means: "Sweet smell + fog + damp carpet strongly points to heater core leak."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.90

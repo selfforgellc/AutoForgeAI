@@ -1,0 +1,34 @@
+version: "1.0"
+domain: "engine"
+rules:
+  - id: "engine.rough_idle_hesitation_no_codes"
+    priority: 120
+    triggers:
+      keywords: ["rough idle", "hesitation", "stumble", "no codes", "no check engine"]
+      regex: []
+    lock:
+      system: "engine"
+      component_hints:
+        - "vacuum leak"
+        - "dirty throttle body"
+        - "ignition misfire"
+        - "fuel pressure"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: []
+      message: ""
+    questions:
+      disambiguate: []
+      confirm:
+        - "Any misfire feel under load, or only at idle?"
+        - "Any recent plug/coil work?"
+    next_actions:
+      micro_steps:
+        - "Check fuel trims at idle vs 2500 rpm (if you have scan data)."
+        - "Quick visual for vacuum/PCV hoses and intake boot cracks."
+      what_it_means: "High positive trims at idle that normalize off-idle suggests unmetered air/vac leak."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.85

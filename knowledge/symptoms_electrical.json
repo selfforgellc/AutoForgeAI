@@ -1,0 +1,148 @@
+[
+  {
+    "id": "electrical.no_crank",
+    "title": "No crank",
+    "systems": [
+      "electrical",
+      "starting",
+      "battery",
+      "grounds"
+    ],
+    "patterns": {
+      "include": [
+        "no crank",
+        "won't crank",
+        "starter clicks",
+        "single click"
+      ],
+      "exclude": [
+        "cranks but no start"
+      ]
+    },
+    "dtc_bonus": [
+      "P0562"
+    ],
+    "causes": [
+      {
+        "name": "Weak/dead battery",
+        "description": "Insufficient voltage under load",
+        "likelihood": "common"
+      },
+      {
+        "name": "Poor ground/connection",
+        "description": "High resistance at terminals or grounds",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Starter motor/solenoid fault",
+        "description": "Open circuit or worn brushes",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Ignition switch/relay fault",
+        "description": "No signal to solenoid",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "No crank is almost always battery, connections, or starter control.",
+    "steps": [
+      {
+        "step": "Measure battery voltage",
+        "details": "12.6V KOEO; above 10V during crank",
+        "tools": "Multimeter",
+        "expected": ">=12.4V / >=10V cranking"
+      },
+      {
+        "step": "Voltage drop test",
+        "details": "Check positive & ground drops during crank",
+        "tools": "Multimeter",
+        "expected": "<0.5V drop each"
+      },
+      {
+        "step": "Check start signal at solenoid",
+        "details": "12V present when key to START",
+        "tools": "Test light",
+        "expected": "Bright during START"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  },
+  {
+    "id": "electrical.parasitic_draw",
+    "title": "Battery drains overnight (parasitic draw)",
+    "systems": [
+      "electrical",
+      "battery",
+      "body_electronics"
+    ],
+    "patterns": {
+      "include": [
+        "battery dead overnight",
+        "parasitic draw",
+        "drains while parked",
+        "battery keeps dying"
+      ],
+      "exclude": []
+    },
+    "dtc_bonus": [],
+    "causes": [
+      {
+        "name": "Module not sleeping",
+        "description": "CAN bus wake events keep modules active",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Glove/hood/trunk light stuck",
+        "description": "Lamp remains on",
+        "likelihood": "common"
+      },
+      {
+        "name": "Aftermarket accessory draw",
+        "description": "Radio/tracker/alarm abnormal draw",
+        "likelihood": "common"
+      }
+    ],
+    "summary": "Parasitic draw is excess current with ignition off.",
+    "steps": [
+      {
+        "step": "Measure key-off current",
+        "details": "Wait 20\u201345 minutes for sleep; normal <50mA",
+        "tools": "Clamp meter",
+        "expected": "<50mA"
+      },
+      {
+        "step": "Fuse pull test",
+        "details": "Pull fuses to isolate circuit",
+        "tools": "Multimeter",
+        "expected": "Current drops when culprit pulled"
+      },
+      {
+        "step": "Check door/hood switches",
+        "details": "Confirm lights truly off",
+        "tools": "Eyes / scan tool",
+        "expected": "No lamps on"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 6
+      },
+      "elite": {
+        "max_steps": 8
+      }
+    }
+  }
+]

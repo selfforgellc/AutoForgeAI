@@ -1,0 +1,34 @@
+version: "1.0"
+domain: "electrical"
+rules:
+  - id: "elec.burning_smell_anywhere"
+    priority: 140
+    triggers:
+      keywords: ["burning plastic", "hot wires", "electrical burning", "melting", "smoke smell"]
+      regex: []
+    lock:
+      system: "electrical"
+      component_hints:
+        - "connector overheating"
+        - "high resistance connection"
+        - "motor high current draw"
+        - "fuse box / relay"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["fire_risk"]
+      message: "Electrical burning smell can indicate overheating wiring/connector. If you see smoke or melting, shut down and inspect immediately."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Any recent electrical work (stereo, remote start, lights)?"
+        - "Any fuse blowing or intermittent power loss?"
+    next_actions:
+      micro_steps:
+        - "Identify the exact source area: under dash, under hood, or near a specific motor (blower, radiator fan, fuel pump)."
+        - "Look for melted insulation, browned connectors, or heat-discolored terminals."
+      what_it_means: "Burn smell without visible smoke often comes from high-resistance connections or failing motors pulling too much current."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.85

@@ -1,0 +1,34 @@
+version: "1.0"
+domain: "steering_suspension"
+rules:
+  - id: "sus.clunk_over_bumps"
+    priority: 120
+    triggers:
+      keywords: ["clunk", "clunking", "over bumps", "popping", "front end noise"]
+      regex: []
+    lock:
+      system: "steering_suspension"
+      component_hints:
+        - "sway bar links"
+        - "strut mounts"
+        - "ball joints"
+        - "control arm bushings"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["alignment_risk"]
+      message: "Loose suspension components can affect handling; inspect soon."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Is it more on turning, braking, or straight bumps?"
+        - "Any uneven tire wear?"
+    next_actions:
+      micro_steps:
+        - "Bounce-test and listen near the corner; check sway links for play by hand."
+        - "Look for torn boots and visible movement at ball joint/control arm bushings."
+      what_it_means: "Clunk on bumps is commonly sway links or loose strut mount; turning/braking clunks can be ball joints/bushings."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.80

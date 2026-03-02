@@ -1,0 +1,268 @@
+[
+  {
+    "id": "engine.rough_idle.base",
+    "title": "Rough idle",
+    "systems": [
+      "engine",
+      "air_intake",
+      "fuel",
+      "ignition"
+    ],
+    "patterns": {
+      "include": [
+        "rough idle",
+        "idles rough",
+        "unstable idle",
+        "hunting idle"
+      ],
+      "exclude": [
+        "no start",
+        "won't start",
+        "wont start"
+      ]
+    },
+    "dtc_bonus": [
+      "P0171",
+      "P0174",
+      "P0300",
+      "P0101"
+    ],
+    "causes": [
+      {
+        "name": "Vacuum leak / unmetered air",
+        "description": "Cracked hose, PCV, or intake gasket leaks air past MAF",
+        "likelihood": "common"
+      },
+      {
+        "name": "Dirty throttle body",
+        "description": "Carbon buildup on plate causing low-flow instability",
+        "likelihood": "common"
+      },
+      {
+        "name": "Ignition weakness",
+        "description": "Worn plugs or weak coil causing intermittent misfire at idle",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Low fuel pressure",
+        "description": "Weak pump or restricted filter lowers injector delivery",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "Unmetered air or weak spark/fuel at low RPM commonly causes rough idle.",
+    "steps": [
+      {
+        "step": "Check fuel trims",
+        "details": "Read STFT/LTFT at idle and 2500 rpm; > +10% suggests air leak",
+        "tools": "OBD2 scanner",
+        "expected": "\u00b15%"
+      },
+      {
+        "step": "Smoke test intake",
+        "details": "Inspect PCV, brake booster hose, and intake gaskets",
+        "tools": "Smoke machine",
+        "expected": "No leaks"
+      },
+      {
+        "step": "Clean throttle body",
+        "details": "Clean bore/plate and perform idle relearn if required",
+        "tools": "Throttle body cleaner",
+        "expected": "Stable idle"
+      },
+      {
+        "step": "Verify fuel pressure",
+        "details": "Measure rail pressure vs spec under idle and snap throttle",
+        "tools": "Fuel pressure gauge",
+        "expected": "Within spec"
+      },
+      {
+        "step": "Swap suspect coils/plugs",
+        "details": "Move components to see if symptom follows part",
+        "tools": "Hand tools",
+        "expected": "Symptom follows bad part"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3,
+        "language_level": "simple"
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  },
+  {
+    "id": "engine.misfire.generic",
+    "title": "Misfire (general)",
+    "systems": [
+      "engine",
+      "ignition",
+      "fuel",
+      "compression"
+    ],
+    "patterns": {
+      "include": [
+        "misfire",
+        "p030",
+        "shudder under load",
+        "stumble"
+      ],
+      "exclude": []
+    },
+    "dtc_bonus": [
+      "P0300",
+      "P0301",
+      "P0302",
+      "P0303",
+      "P0304",
+      "P0305",
+      "P0306"
+    ],
+    "causes": [
+      {
+        "name": "Worn spark plugs",
+        "description": "Excessive gap or fouling under load",
+        "likelihood": "common"
+      },
+      {
+        "name": "Faulty ignition coil",
+        "description": "Weak spark or internal short; often cylinder-specific",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Injector issue",
+        "description": "Restricted or leaking injector",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Low compression",
+        "description": "Burnt valve or worn rings",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "A misfire is loss of combustion due to spark, fuel, or compression.",
+    "steps": [
+      {
+        "step": "Pull OBD codes",
+        "details": "Identify cylinder-specific DTCs (P030X)",
+        "tools": "OBD2 scanner",
+        "expected": "Cylinder identified"
+      },
+      {
+        "step": "Inspect plugs",
+        "details": "Check gap, fouling, or cracks",
+        "tools": "Socket set",
+        "expected": "Normal tan color"
+      },
+      {
+        "step": "Swap coil",
+        "details": "Move coil to another cylinder to see if misfire follows",
+        "tools": "Socket set",
+        "expected": "Misfire follows coil"
+      },
+      {
+        "step": "Balance test / injector flow",
+        "details": "Command injector test; measure contribution",
+        "tools": "Scan tool",
+        "expected": "Even contribution"
+      },
+      {
+        "step": "Compression/leakdown",
+        "details": "Verify mechanical condition",
+        "tools": "Compression tester",
+        "expected": "Within 10% across cylinders"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  },
+  {
+    "id": "engine.no_start.cranks_no_start",
+    "title": "Cranks but no start",
+    "systems": [
+      "engine",
+      "fuel",
+      "ignition",
+      "immobilizer"
+    ],
+    "patterns": {
+      "include": [
+        "cranks but won't start",
+        "cranks no start",
+        "turns over no start",
+        "no start but cranks"
+      ],
+      "exclude": [
+        "no crank"
+      ]
+    },
+    "dtc_bonus": [
+      "P0335",
+      "P0628",
+      "P0128",
+      "P0562"
+    ],
+    "causes": [
+      {
+        "name": "No fuel pressure",
+        "description": "Pump/relay failure or empty tank",
+        "likelihood": "common"
+      },
+      {
+        "name": "No spark",
+        "description": "Crank sensor or ignition control failure",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Immobilizer active",
+        "description": "Key/anti-theft prevents injection/ignition",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "If it cranks but won\u2019t start, verify fuel, spark, and security.",
+    "steps": [
+      {
+        "step": "Check fuel pressure",
+        "details": "Measure or read via scan tool; listen for prime",
+        "tools": "Fuel pressure gauge",
+        "expected": "Within spec"
+      },
+      {
+        "step": "Test for spark",
+        "details": "Use inline spark tester",
+        "tools": "Spark tester",
+        "expected": "Strong blue spark"
+      },
+      {
+        "step": "Scan for immobilizer DTCs",
+        "details": "Look for key/immobilizer faults",
+        "tools": "Scan tool",
+        "expected": "No active immobilizer faults"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 5
+      },
+      "elite": {
+        "max_steps": 7
+      }
+    }
+  }
+]

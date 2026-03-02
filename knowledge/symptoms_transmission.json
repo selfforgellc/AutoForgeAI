@@ -1,0 +1,83 @@
+[
+  {
+    "id": "trans.slip.auto",
+    "title": "Automatic transmission slipping",
+    "systems": [
+      "transmission",
+      "auto",
+      "hydraulics",
+      "clutches"
+    ],
+    "patterns": {
+      "include": [
+        "transmission slipping",
+        "slips between gears",
+        "rpm flares",
+        "no acceleration but revs"
+      ],
+      "exclude": [
+        "manual"
+      ]
+    },
+    "dtc_bonus": [
+      "P0730",
+      "P0741",
+      "P0750",
+      "P0715"
+    ],
+    "causes": [
+      {
+        "name": "Low/dirty ATF",
+        "description": "Incorrect level or degraded fluid",
+        "likelihood": "common"
+      },
+      {
+        "name": "Worn clutch packs",
+        "description": "Friction material worn",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Solenoid/valve body issue",
+        "description": "Hydraulic control fault",
+        "likelihood": "possible"
+      },
+      {
+        "name": "Torque converter issue",
+        "description": "TCC failing to lock",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "Slipping occurs when hydraulic pressure or friction elements can\u2019t hold.",
+    "steps": [
+      {
+        "step": "Check ATF level & condition",
+        "details": "Follow OEM procedure/temp; look for burnt smell",
+        "tools": "Dipstick/scan tool",
+        "expected": "Correct level, red color"
+      },
+      {
+        "step": "Scan TCM for DTCs/data",
+        "details": "Look at gear ratio, TCC slip, line pressure",
+        "tools": "Advanced scan tool",
+        "expected": "Values within spec"
+      },
+      {
+        "step": "Service fluid/filter",
+        "details": "If burnt/dirty; re-test",
+        "tools": "Service kit",
+        "expected": "Improved hold"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 6
+      },
+      "elite": {
+        "max_steps": 8
+      }
+    }
+  }
+]

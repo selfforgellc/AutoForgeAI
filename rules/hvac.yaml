@@ -1,0 +1,105 @@
+version: "1.0"
+domain: "hvac"
+rules:
+  - id: "hvac.smoke_in_vents"
+    priority: 200
+    triggers:
+      keywords: ["smoke in vents", "smoke from vents", "smoke out of vents", "vents smoking", "smoke in cabin"]
+      regex:
+        - "\\bsmoke\\b.*\\bvent"
+        - "\\bvent\\b.*\\bsmoke"
+    lock:
+      system: "hvac"
+      component_hints:
+        - "blower motor"
+        - "blower wheel (squirrel cage)"
+        - "blower resistor / control module"
+        - "melted connector at resistor or motor"
+        - "heater core (steam)"
+    forbid:
+      systems: ["engine", "fuel", "air_intake"]
+      claims:
+        - "vacuum leak causes smoke out of dash vents"
+        - "dirty throttle body causes smoke out of vents"
+    safety:
+      flags: ["fire_risk"]
+      message: "If you see actual smoke or strong electrical burning smell, shut the HVAC off immediately. If smoke continues, stop driving and inspect for melting wiring."
+    questions:
+      disambiguate:
+        - "Is this smoke/steam only when the blower is on, or even with blower off?"
+      confirm:
+        - "What does it smell like: sweet/coolant, hot plastic/electrical, or oily/burnt?"
+        - "What color is it: white/steamy, gray, or blue-ish?"
+        - "Does it happen on certain blower speeds (low vs high)?"
+    next_actions:
+      micro_steps:
+        - "Turn HVAC OFF. Pop the cabin filter out and check for melted plastic, leaves, or a burnt smell right at the filter slot."
+        - "With HVAC still OFF, turn key on and cycle blower speeds briefly (2–3 seconds) while listening at the passenger footwell for scraping/thudding."
+      what_it_means: "Smoke/odor tied to blower speed points to blower motor/wheel/resistor/connector heat. Sweet white steam suggests heater core leak/evaporating coolant."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.85
+
+  - id: "hvac.electrical_burning_smell_with_heat"
+    priority: 180
+    triggers:
+      keywords: ["electrical burning", "burning plastic", "hot wires", "melting", "smells like electrical", "burning smell when heater on"]
+      regex: []
+    lock:
+      system: "electrical"
+      component_hints:
+        - "blower resistor / module"
+        - "blower motor connector"
+        - "fuse/relay panel HVAC circuit"
+    forbid:
+      systems: ["engine", "air_intake"]
+      claims: []
+    safety:
+      flags: ["fire_risk"]
+      message: "Electrical burning smell from vents often involves overheated wiring or blower resistor/motor. Turn blower off and inspect connectors for heat damage."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Does the smell happen only on high speed, or all speeds?"
+        - "Any intermittent blower operation (cuts out, only works on high)?"
+    next_actions:
+      micro_steps:
+        - "Access the blower motor/resistor area (usually passenger footwell). Look for browned/melted connector plastic or heat discoloration."
+        - "If the connector is melted or terminals are loose, don’t keep running it — repair connector + resistor/motor as needed."
+      what_it_means: "High-speed-only smell often implicates resistor/module/connector heat or high current draw from a failing blower motor."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.90
+
+  - id: "hvac.thud_on_high_blower"
+    priority: 170
+    triggers:
+      keywords: ["thud", "thudding", "knocking", "rattle", "tapping", "on high", "high speed"]
+      regex:
+        - "\\bthud\\b.*\\b(high|max)\\b"
+        - "\\b(high|max)\\b.*\\bthud\\b"
+    lock:
+      system: "hvac"
+      component_hints:
+        - "blower wheel contacting housing"
+        - "debris in blower housing"
+        - "blower motor bearings/play"
+    forbid:
+      systems: ["engine", "cooling"]  # prevents radiator fan discussion when vents context exists
+      claims: []
+    safety:
+      flags: []
+      message: ""
+    questions:
+      disambiguate: []
+      confirm:
+        - "Does airflow stay strong when it thuds, or does it drop like it’s binding?"
+        - "Does the noise stop if you drop from speed 4 to 3?"
+    next_actions:
+      micro_steps:
+        - "With cabin filter removed, shine a flashlight down toward the blower wheel and look for foam strips, leaves, or anything that can slap the wheel."
+        - "If nothing visible: thud that worsens with speed is classic blower bearing/play—wheel wobbles and hits housing."
+      what_it_means: "Speed-related thud = mechanical contact or bearing failure. If accompanied by burning smell, suspect motor current draw + connector heat."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.90

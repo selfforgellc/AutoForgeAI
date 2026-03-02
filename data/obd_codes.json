@@ -1,0 +1,32 @@
+{
+  "P0001": {
+    "title": "Fuel Volume Regulator Control Circuit/Open",
+    "common_causes": ["Wiring open/short", "Faulty fuel volume regulator", "ECM fault"],
+    "first_checks": ["Visual inspect harness/connectors", "Check regulator resistance", "Scan live fuel pressure"]
+  },
+  "P0113": {
+    "title": "Intake Air Temperature Sensor 1 Circuit High",
+    "common_causes": ["Unplugged IAT sensor", "Open circuit", "Faulty sensor"],
+    "first_checks": ["Verify connector seated", "Measure IAT resistance vs temp", "Check 5V ref and ground"]
+  },
+  "P0171": {
+    "title": "System Too Lean (Bank 1)",
+    "common_causes": ["Vacuum leak", "Dirty MAF", "Low fuel pressure", "Exhaust leak upstream O2"],
+    "first_checks": ["Smoke test for leaks", "Clean/monitor MAF g/s", "Fuel pressure test", "STFT/LTFT analysis"]
+  },
+  "P0300": {
+    "title": "Random/Multiple Cylinder Misfire Detected",
+    "common_causes": ["Ignition coils/plugs", "Vacuum leak", "Fuel delivery", "Compression issues"],
+    "first_checks": ["Check misfire counters", "Inspect plugs/coils", "Fuel pressure", "Compression/leakdown"]
+  },
+  "P0420": {
+    "title": "Catalyst System Efficiency Below Threshold (Bank 1)",
+    "common_causes": ["Aged catalytic converter", "Exhaust leak", "Rear O2 sensor degraded", "Rich/lean conditions"],
+    "first_checks": ["Check for exhaust leaks", "Monitor O2 sensor switching", "Check fuel trims", "Verify no misfires"]
+  },
+  "P0442": {
+    "title": "EVAP Emission Control System Leak (small)",
+    "common_causes": ["Loose gas cap", "Cracked EVAP hose", "Purge/vent valve leak"],
+    "first_checks": ["Tighten/replace cap", "Smoke test EVAP", "Command purge/vent via scanner"]
+  }
+}

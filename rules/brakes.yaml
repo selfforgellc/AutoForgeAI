@@ -1,0 +1,33 @@
+version: "1.0"
+domain: "brakes"
+rules:
+  - id: "brakes.pedal_spongy_or_sinks"
+    priority: 130
+    triggers:
+      keywords: ["spongy pedal", "pedal sinks", "soft brake", "long pedal"]
+      regex: []
+    lock:
+      system: "brakes"
+      component_hints:
+        - "air in lines"
+        - "leak"
+        - "master cylinder bypass"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["do_not_drive"]
+      message: "Brake pedal issues can be unsafe. If braking is compromised, don’t drive until verified."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Any fluid loss? Any wet spots at calipers/lines/master?"
+        - "Does it pump up with rapid pumping?"
+    next_actions:
+      micro_steps:
+        - "Check brake fluid level and inspect for external leaks at all four corners and under master."
+        - "Hold steady pedal pressure: if it slowly sinks, suspect master cylinder bypass."
+      what_it_means: "Pumping improves pedal = air. Slow sink under steady pressure = master/internal bypass or leak."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.85

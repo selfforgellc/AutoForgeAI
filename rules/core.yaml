@@ -1,0 +1,53 @@
+version: "1.0"
+domain: "core"
+rules:
+  - id: "core.fan_disambiguation"
+    priority: 50
+    triggers:
+      keywords: ["fan", "blower", "thud", "rattle", "click", "knock"]
+      regex: []
+    lock:
+      system: "auto"
+      component_hints: []
+    forbid:
+      systems: []
+      claims:
+        - "assume radiator fan when vents/heater/ac are mentioned"
+    safety:
+      flags: []
+      message: ""
+    questions:
+      disambiguate:
+        - "When you say 'fan', do you mean the blower inside the dash (vents), or the radiator/engine cooling fan under the hood?"
+      confirm: []
+    next_actions:
+      micro_steps: []
+      what_it_means: ""
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.80
+
+  - id: "core.no_loops"
+    priority: 90
+    triggers:
+      keywords: ["already", "i did", "i don't see", "checked", "nothing", "obviously"]
+      regex: []
+    lock:
+      system: "auto"
+      component_hints: []
+    forbid:
+      systems: []
+      claims:
+        - "repeat the same step the user just did"
+    safety:
+      flags: []
+      message: ""
+    questions:
+      disambiguate: []
+      confirm: []
+    next_actions:
+      micro_steps: []
+      what_it_means: ""
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.80

@@ -1,0 +1,27 @@
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: autoforge
+      POSTGRES_PASSWORD: autoforge
+      POSTGRES_DB: autoforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://autoforge:autoforge@db:5432/autoforge
+      ENV: production
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

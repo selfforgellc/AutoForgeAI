@@ -1,0 +1,32 @@
+version: "1.0"
+domain: "fuel_emissions"
+rules:
+  - id: "evap.fuel_smell_or_hard_start_after_fill"
+    priority: 110
+    triggers:
+      keywords: ["fuel smell", "gas smell", "hard start after gas", "after filling", "evap"]
+      regex: []
+    lock:
+      system: "fuel_emissions"
+      component_hints:
+        - "purge valve stuck open"
+        - "evap leak"
+    forbid:
+      systems: []
+      claims: []
+    safety:
+      flags: ["fire_risk"]
+      message: "Raw fuel smell can be a fire risk. Avoid open flames and address promptly."
+    questions:
+      disambiguate: []
+      confirm:
+        - "Does it stumble right after fill-up?"
+        - "Any EVAP codes (P0442/P0455/P0496 etc)?"
+    next_actions:
+      micro_steps:
+        - "If you can read codes, check EVAP-related DTCs and freeze-frame."
+        - "Listen/feel for purge valve clicking; stuck-open purge can cause rich starts after refuel."
+      what_it_means: "Hard start after filling often points to purge valve allowing vapor flood."
+    confidence_caps:
+      initial_max: 0.55
+      after_evidence_max: 0.80

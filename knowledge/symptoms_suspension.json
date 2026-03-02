@@ -1,0 +1,72 @@
+[
+  {
+    "id": "suspension.vibration.speed",
+    "title": "Vibration at speed",
+    "systems": [
+      "suspension",
+      "wheels_tires",
+      "alignment",
+      "driveline"
+    ],
+    "patterns": {
+      "include": [
+        "vibration at speed",
+        "steering wheel shake",
+        "shakes at 60"
+      ],
+      "exclude": [
+        "engine misfire"
+      ]
+    },
+    "dtc_bonus": [],
+    "causes": [
+      {
+        "name": "Wheel balance issue",
+        "description": "Imbalanced tire/wheel assembly",
+        "likelihood": "common"
+      },
+      {
+        "name": "Bent wheel or tire defect",
+        "description": "Runout or belt shift",
+        "likelihood": "likely"
+      },
+      {
+        "name": "Worn suspension components",
+        "description": "Tie rods/ball joints/bushings",
+        "likelihood": "possible"
+      }
+    ],
+    "summary": "Speed-related vibration is usually tire/wheel or suspension wear.",
+    "steps": [
+      {
+        "step": "Road force balance",
+        "details": "Balance and check for excessive road force",
+        "tools": "Balancer",
+        "expected": "Within tolerance"
+      },
+      {
+        "step": "Inspect runout",
+        "details": "Dial indicator on wheel/hub",
+        "tools": "Dial indicator",
+        "expected": "Within spec"
+      },
+      {
+        "step": "Check suspension play",
+        "details": "Lift/lever test joints & bushings",
+        "tools": "Pry bar",
+        "expected": "Minimal play"
+      }
+    ],
+    "tiers": {
+      "basic": {
+        "max_steps": 3
+      },
+      "pro": {
+        "max_steps": 6
+      },
+      "elite": {
+        "max_steps": 8
+      }
+    }
+  }
+]

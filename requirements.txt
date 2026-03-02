@@ -1,0 +1,21 @@
+fastapi>=0.110
+uvicorn[standard]>=0.27
+sqlmodel>=0.0.16
+pydantic>=2.0
+requests>=2.31
+httpx>=0.26
+PyJWT>=2.8
+passlib[bcrypt]>=1.7
+bcrypt>=4.1
+stripe>=8.0
+python-dotenv>=1.0
+slowapi>=0.1.9
+prometheus-client>=0.20
+PyYAML>=6.0
+redis>=5.0
+
+# Optional / heavy (only needed if you use the semantic index + embeddings features)
+numpy>=1.26
+faiss-cpu>=1.8
+sentence-transformers>=2.7
+openai>=1.0
