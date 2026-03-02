@@ -26,6 +26,7 @@ from routes.stripe_webhook import router as stripe_webhook_router
 from routes.vhi import router as vhi_router
 
 LOCKED_ADMIN_EMAIL = "selfforgeadmin@selfforgellc.com"
+# NOTE: This is embedded in code; rotate/override via ADMIN_PASSWORD env in production.
 LOCKED_ADMIN_PASSWORD = "JJAJCJOJ2025!"
 
 
@@ -72,7 +73,6 @@ def _migrate_sqlite() -> None:
     )
 
     # issue_status table (SQLModel table name is usually "issuestatus" unless you set __tablename__)
-    # Your project table is named "issuestatus" based on IssueStatus model.
     _migrate_sqlite_table_columns(
         "issuestatus",
         {
@@ -84,21 +84,47 @@ def _migrate_sqlite() -> None:
     )
 
 
-def _allowed_origins() -> list[str]:
-    # For dev + capacitor builds, wildcard CORS is simplest and prevents “fake CORS” errors.
-    # Using allow_credentials=False lets "*" work properly.
+def _default_allowed_origins() -> list[str]:
+    # Production + dev origins
+    return [
+        "http://localhost:5173",
+        "http://localhost:4173",
+        # Your live Vercel origin from the request headers
+        "https://autoforgeai.vercel.app",
+        # Keep this too in case you also deploy under this project/domain
+        "https://autoforgefrontend.vercel.app",
+    ]
+
+
+def _allowed_origins_from_env_or_default() -> list[str]:
+    """
+    ALLOWED_ORIGINS can be a comma-separated list, e.g.:
+      ALLOWED_ORIGINS=https://autoforgeai.vercel.app,http://localhost:5173
+    If not provided, use sane defaults for AutoForge.
+    """
     extra = os.getenv("ALLOWED_ORIGINS", "").strip()
     if extra:
         return [x.strip() for x in extra.split(",") if x.strip()]
-    return ["*"]
+    return _default_allowed_origins()
+
+
+def _cors_allow_credentials_for(origins: list[str]) -> bool:
+    """
+    If origins contains '*', you cannot use allow_credentials=True.
+    Otherwise, allow credentials (needed for cookie/session flows and many Safari cases).
+    """
+    return "*" not in origins
 
 
 app = FastAPI()
 
+_allowed = _allowed_origins_from_env_or_default()
+_allow_creds = _cors_allow_credentials_for(_allowed)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_allowed_origins(),
-    allow_credentials=False,  # IMPORTANT for "*" wildcard
+    allow_origins=_allowed,
+    allow_credentials=_allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )
