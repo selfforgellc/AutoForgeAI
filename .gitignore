@@ -23,3 +23,8 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local DB files
+autoforge.db
+*.db
+
